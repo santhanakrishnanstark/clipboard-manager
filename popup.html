@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clipboard Manager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-content">
+        <h1 class="app-title">Clipboard Manager</h1>
+        <div class="header-actions">
+          <button class="icon-button" id="refreshBtn" title="Refresh & Reinject Scripts" style="background: #FF9500; color: white;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="23 4 23 10 17 10"></polyline>
+              <polyline points="1 20 1 14 7 14"></polyline>
+              <path d="m3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            </svg>
+          </button>
+          <button class="icon-button" id="testBtn" title="Test Clipboard" style="background: #34C759; color: white;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9,11 12,14 22,4"></polyline>
+              <path d="m21,3-6.5,18a.55.55,0,0,1-1,0L10,14Z"></path>
+            </svg>
+          </button>
+          <button class="icon-button" id="settingsBtn" title="Settings">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="m12 1 0 6m0 6 0 6"></path>
+              <path d="m17.5 6.5-3 3m-6 6-3 3"></path>
+              <path d="m6.5 6.5 3 3m6 6 3 3"></path>
+            </svg>
+          </button>
+          <button class="icon-button" id="clearAllBtn" title="Clear All">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3,6 5,6 21,6"></polyline>
+              <path d="m19,6v14a2,2 0 0,1-2,2H7a2,2 0 0,1-2-2V6m3,0V4a2,2 0 0,1,2-2h4a2,2 0 0,1,2,2v2"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Tab Navigation -->
+    <nav class="tab-navigation">
+      <button class="tab-button active" data-tab="history">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 3v5h5"></path>
+          <path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"></path>
+        </svg>
+        History
+      </button>
+      <button class="tab-button" data-tab="snippets">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+          <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+        </svg>
+        Snippets
+      </button>
+    </nav>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input type="text" id="searchInput" placeholder="Search clipboard..." class="search-input">
+        <button class="clear-search-btn" id="clearSearchBtn" style="display: none;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Content Area -->
+    <main class="content-area">
+      <!-- History Tab -->
+      <div class="tab-content active" id="historyTab">
+        <div class="toolbar">
+          <div class="sort-controls">
+            <select id="sortSelect" class="sort-select">
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+              <option value="pinned">Pinned First</option>
+            </select>
+          </div>
+          <div class="item-count">
+            <span id="historyCount">0 items</span>
+          </div>
+        </div>
+        
+        <div class="items-container" id="historyContainer">
+          <div class="empty-state" id="historyEmptyState">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M3 3v5h5"></path>
+              <path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"></path>
+            </svg>
+            <h3>No clipboard history</h3>
+            <p>Copy some text to get started</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Snippets Tab -->
+      <div class="tab-content" id="snippetsTab">
+        <div class="toolbar">
+          <button class="primary-button" id="addSnippetBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Add Snippet
+          </button>
+          <div class="item-count">
+            <span id="snippetsCount">0 snippets</span>
+          </div>
+        </div>
+        
+        <div class="items-container" id="snippetsContainer">
+          <div class="empty-state" id="snippetsEmptyState">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+              <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+            </svg>
+            <h3>No snippets saved</h3>
+            <p>Create reusable text snippets</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-actions">
+        <button class="footer-button" id="importBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7,10 12,15 17,10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Import
+        </button>
+        <button class="footer-button" id="exportBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17,8 12,3 7,8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          Export
+        </button>
+        <div class="footer-spacer"></div>
+        <span class="version-info">v1.0.0</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Modals -->
+  <!-- Add Snippet Modal -->
+  <div class="modal-overlay" id="addSnippetModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Add Snippet</h2>
+        <button class="modal-close" id="closeSnippetModal">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="snippetTitle">Title</label>
+          <input type="text" id="snippetTitle" placeholder="Enter snippet title..." class="form-input">
+        </div>
+        <div class="form-group">
+          <label for="snippetText">Content</label>
+          <textarea id="snippetText" placeholder="Enter snippet content..." class="form-textarea" rows="4"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="secondary-button" id="cancelSnippetBtn">Cancel</button>
+        <button class="primary-button" id="saveSnippetBtn">Save Snippet</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm Modal -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="confirmTitle">Confirm Action</h2>
+      </div>
+      <div class="modal-body">
+        <p id="confirmMessage">Are you sure you want to proceed?</p>
+      </div>
+      <div class="modal-footer">
+        <button class="secondary-button" id="confirmCancelBtn">Cancel</button>
+        <button class="danger-button" id="confirmActionBtn">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden file input for import -->
+  <input type="file" id="importFileInput" accept=".json,.csv" style="display: none;">
+
+  <script src="popup.js"></script>
+</body>
+</html>

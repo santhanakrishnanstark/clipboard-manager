@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clipboard Manager Settings</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Additional styles for options page */
+    body {
+      width: 100%;
+      height: 100vh;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background: var(--background-secondary);
+    }
+
+    .options-container {
+      background: var(--background-primary);
+      border-radius: var(--radius-large);
+      box-shadow: var(--shadow-medium);
+      overflow: hidden;
+    }
+
+    .options-header {
+      background: var(--background-primary);
+      border-bottom: 1px solid var(--border-light);
+      padding: 32px 40px;
+      text-align: center;
+    }
+
+    .options-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .options-subtitle {
+      font-size: 16px;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    .options-content {
+      padding: 40px;
+    }
+
+    .settings-section {
+      margin-bottom: 40px;
+    }
+
+    .settings-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-description {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .setting-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .setting-item:last-child {
+      border-bottom: none;
+    }
+
+    .setting-info {
+      flex: 1;
+    }
+
+    .setting-label {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .setting-description {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .setting-control {
+      flex-shrink: 0;
+      margin-left: 20px;
+    }
+
+    /* Toggle switch */
+    .toggle-switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      background: var(--border-color);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background-color var(--transition-fast);
+    }
+
+    .toggle-switch.active {
+      background: var(--primary-color);
+    }
+
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      transition: transform var(--transition-fast);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .toggle-switch.active::after {
+      transform: translateX(20px);
+    }
+
+    /* Number input */
+    .number-input {
+      width: 80px;
+      padding: 8px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-medium);
+      background: var(--background-primary);
+      color: var(--text-primary);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .number-input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+    }
+
+    /* Textarea for excluded sites */
+    .excluded-sites-textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 12px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-medium);
+      background: var(--background-primary);
+      color: var(--text-primary);
+      font-size: 13px;
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+      line-height: 1.4;
+      resize: vertical;
+    }
+
+    .excluded-sites-textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+    }
+
+    .excluded-sites-help {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--text-tertiary);
+      line-height: 1.4;
+    }
+
+    /* Action buttons */
+    .actions-section {
+      background: var(--background-secondary);
+      padding: 24px 40px;
+      border-top: 1px solid var(--border-light);
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .reset-button {
+      background: var(--danger-color);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: var(--radius-medium);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .reset-button:hover {
+      background: var(--danger-hover);
+    }
+
+    .save-button {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: var(--radius-medium);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .save-button:hover {
+      background: var(--primary-hover);
+    }
+
+    .save-button:disabled {
+      background: var(--text-tertiary);
+      cursor: not-allowed;
+    }
+
+    /* Status message */
+    .status-message {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      border-radius: var(--radius-medium);
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 1000;
+      transform: translateX(100%);
+      transition: transform var(--transition-medium);
+    }
+
+    .status-message.success {
+      background: var(--success-color);
+      color: white;
+    }
+
+    .status-message.error {
+      background: var(--danger-color);
+      color: white;
+    }
+
+    .status-message.show {
+      transform: translateX(0);
+    }
+
+    /* Responsive design */
+    @media (max-width: 600px) {
+      body {
+        padding: 20px 16px;
+      }
+
+      .options-header {
+        padding: 24px 20px;
+      }
+
+      .options-content {
+        padding: 24px 20px;
+      }
+
+      .actions-section {
+        padding: 20px;
+        flex-direction: column;
+      }
+
+      .setting-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .setting-control {
+        margin-left: 0;
+        align-self: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="options-container">
+    <!-- Header -->
+    <header class="options-header">
+      <h1 class="options-title">Clipboard Manager Settings</h1>
+      <p class="options-subtitle">Customize your clipboard management experience</p>
+    </header>
+
+    <!-- Content -->
+    <div class="options-content">
+      <!-- General Settings -->
+      <section class="settings-section">
+        <h2 class="section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="m12 1 0 6m0 6 0 6"></path>
+            <path d="m17.5 6.5-3 3m-6 6-3 3"></path>
+            <path d="m6.5 6.5 3 3m6 6 3 3"></path>
+          </svg>
+          General Settings
+        </h2>
+        <p class="section-description">
+          Configure basic clipboard manager behavior and appearance.
+        </p>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">Maximum History Size</div>
+            <div class="setting-description">Number of clipboard items to keep in history</div>
+          </div>
+          <div class="setting-control">
+            <input type="number" id="maxHistorySize" class="number-input" min="10" max="1000" value="50">
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">Enable Context Menu</div>
+            <div class="setting-description">Show clipboard options in right-click menu</div>
+          </div>
+          <div class="setting-control">
+            <div class="toggle-switch" id="enableContextMenu"></div>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">Enable Quick Paste</div>
+            <div class="setting-description">Allow quick paste menu with keyboard shortcut</div>
+          </div>
+          <div class="setting-control">
+            <div class="toggle-switch" id="enableQuickPaste"></div>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">Theme</div>
+            <div class="setting-description">Choose your preferred color scheme</div>
+          </div>
+          <div class="setting-control">
+            <select id="themeSelect" class="sort-select">
+              <option value="auto">Auto (System)</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- Privacy & Security -->
+      <section class="settings-section">
+        <h2 class="section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <circle cx="12" cy="16" r="1"></circle>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          Privacy & Security
+        </h2>
+        <p class="section-description">
+          Control which sites can access your clipboard and manage privacy settings.
+        </p>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">Excluded Sites</div>
+            <div class="setting-description">
+              Sites where clipboard data should not be captured (one per line)
+            </div>
+            <textarea 
+              id="excludedSites" 
+              class="excluded-sites-textarea" 
+              placeholder="example.com&#10;*.banking.com&#10;secure-site.org"
+            ></textarea>
+            <div class="excluded-sites-help">
+              • Use exact domain names (e.g., example.com)<br>
+              • Use wildcards for subdomains (e.g., *.example.com)<br>
+              • Banking and medical sites are recommended for exclusion
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Data Management -->
+      <section class="settings-section">
+        <h2 class="section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14,2 14,8 20,8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10,9 9,9 8,9"></polyline>
+          </svg>
+          Data Management
+        </h2>
+        <p class="section-description">
+          Import, export, and manage your clipboard data and settings.
+        </p>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">Export Data</div>
+            <div class="setting-description">Download your clipboard history and snippets</div>
+          </div>
+          <div class="setting-control">
+            <button class="secondary-button" id="exportDataBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17,8 12,3 7,8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              Export
+            </button>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">Import Data</div>
+            <div class="setting-description">Import clipboard history and snippets from file</div>
+          </div>
+          <div class="setting-control">
+            <button class="secondary-button" id="importDataBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7,10 12,15 17,10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Import
+            </button>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">Clear All Data</div>
+            <div class="setting-description">Remove all clipboard history and snippets</div>
+          </div>
+          <div class="setting-control">
+            <button class="danger-button" id="clearAllDataBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3,6 5,6 21,6"></polyline>
+                <path d="m19,6v14a2,2 0 0,1-2,2H7a2,2 0 0,1-2-2V6m3,0V4a2,2 0 0,1,2-2h4a2,2 0 0,1,2,2v2"></path>
+              </svg>
+              Clear All
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Keyboard Shortcuts -->
+      <section class="settings-section">
+        <h2 class="section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+            <path d="M6 8h.01"></path>
+            <path d="M10 8h.01"></path>
+            <path d="M14 8h.01"></path>
+            <path d="M18 8h.01"></path>
+            <path d="M8 12h.01"></path>
+            <path d="M12 12h.01"></path>
+            <path d="M16 12h.01"></path>
+            <path d="M7 16h10"></path>
+          </svg>
+          Keyboard Shortcuts
+        </h2>
+        <p class="section-description">
+          Keyboard shortcuts for quick access to clipboard features.
+        </p>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">Open Clipboard Manager</div>
+            <div class="setting-description">⌘+Shift+C (Mac) / Ctrl+Shift+C (Windows/Linux)</div>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">Quick Paste Menu</div>
+            <div class="setting-description">⌘+Shift+V (Mac) / Ctrl+Shift+V (Windows/Linux)</div>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">Paste Last Item</div>
+            <div class="setting-description">⌘+Shift+Z (Mac) / Ctrl+Shift+Z (Windows/Linux)</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions-section">
+      <button class="reset-button" id="resetSettingsBtn">Reset to Defaults</button>
+      <button class="save-button" id="saveSettingsBtn">Save Settings</button>
+    </div>
+  </div>
+
+  <!-- Hidden file input for import -->
+  <input type="file" id="importFileInput" accept=".json" style="display: none;">
+
+  <!-- Status message -->
+  <div class="status-message" id="statusMessage"></div>
+
+  <script src="options.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Coverage directory
+coverage/
+
+# Dependency directories
+node_modules/
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Build outputs
+dist/
+build/
+
+# Extension packaging
+*.zip
+*.crx
+*.pem
+
+# Temporary files
+tmp/
+temp/
+
+# Internal documentation (not for public repo)
+CHROME_STORE_SUBMISSION_GUIDE.md
+SUBMISSION_CHECKLIST.md
+GITHUB_SETUP_GUIDE.md
+OPEN_SOURCE_STRATEGY.md
+GITHUB_FILES_CHECKLIST.md
