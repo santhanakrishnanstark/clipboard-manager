@@ -1,0 +1,494 @@
+/* Documentation-specific styles */
+
+/* Documentation Layout */
+.docs-content {
+    padding: calc(80px + var(--spacing-xl)) 0 var(--spacing-3xl);
+    background: var(--bg-primary);
+    min-height: calc(100vh - 200px);
+}
+
+.docs-header {
+    text-align: center;
+    margin-bottom: var(--spacing-3xl);
+    padding-bottom: var(--spacing-xl);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.docs-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-lg);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.docs-description {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.docs-body {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Documentation Sections */
+.docs-section {
+    margin-bottom: var(--spacing-3xl);
+    padding-bottom: var(--spacing-xl);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.docs-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.docs-section .section-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-lg);
+    color: var(--text-primary);
+    position: relative;
+}
+
+.docs-section .section-title::before {
+    content: '';
+    position: absolute;
+    left: -var(--spacing-lg);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 24px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: 2px;
+}
+
+.subsection-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: var(--spacing-xl) 0 var(--spacing-md);
+    color: var(--text-primary);
+}
+
+/* Installation Steps */
+.installation-steps-list {
+    list-style: none;
+    counter-reset: step-counter;
+    margin: var(--spacing-lg) 0;
+}
+
+.installation-steps-list li {
+    counter-increment: step-counter;
+    margin-bottom: var(--spacing-md);
+    padding-left: var(--spacing-3xl);
+    position: relative;
+    line-height: 1.6;
+}
+
+.installation-steps-list li::before {
+    content: counter(step-counter);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 32px;
+    height: 32px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+/* Code Blocks */
+.code-block {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+    position: relative;
+}
+
+pre {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+code {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    background: var(--bg-tertiary);
+    padding: 0.125rem 0.375rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-light);
+}
+
+pre code {
+    background: none;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+}
+
+/* Alerts */
+.alert {
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    margin: var(--spacing-lg) 0;
+    border-left: 4px solid;
+    position: relative;
+}
+
+.alert-info {
+    background: rgba(59, 130, 246, 0.1);
+    border-left-color: #3B82F6;
+    color: var(--text-primary);
+}
+
+.alert-success {
+    background: rgba(34, 197, 94, 0.1);
+    border-left-color: #22C55E;
+    color: var(--text-primary);
+}
+
+.alert-warning {
+    background: rgba(245, 158, 11, 0.1);
+    border-left-color: #F59E0B;
+    color: var(--text-primary);
+}
+
+.alert-error {
+    background: rgba(239, 68, 68, 0.1);
+    border-left-color: #EF4444;
+    color: var(--text-primary);
+}
+
+/* Requirements List */
+.requirements-list {
+    list-style: none;
+    margin: var(--spacing-lg) 0;
+}
+
+.requirements-list li {
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    position: relative;
+    padding-left: var(--spacing-2xl);
+}
+
+.requirements-list li::before {
+    content: '✓';
+    position: absolute;
+    left: var(--spacing-md);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--success-color);
+    font-weight: 600;
+    font-size: 1.125rem;
+}
+
+/* Permissions Grid */
+.permissions-grid {
+    display: grid;
+    gap: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.permission-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    transition: var(--transition-normal);
+}
+
+.permission-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.permission-card h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    color: var(--primary-color);
+}
+
+.permission-card p {
+    color: var(--text-secondary);
+    line-height: 1.5;
+    font-size: 0.875rem;
+}
+
+/* Troubleshooting List */
+.troubleshooting-list {
+    list-style: none;
+    margin: var(--spacing-lg) 0;
+}
+
+.troubleshooting-list li {
+    padding: var(--spacing-sm) 0;
+    padding-left: var(--spacing-xl);
+    position: relative;
+    border-bottom: 1px solid var(--border-light);
+    line-height: 1.6;
+}
+
+.troubleshooting-list li:last-child {
+    border-bottom: none;
+}
+
+.troubleshooting-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    top: var(--spacing-sm);
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Next Steps Grid */
+.next-steps-grid {
+    display: grid;
+    gap: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.next-step-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: var(--transition-normal);
+    display: block;
+}
+
+.next-step-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+.next-step-card h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    color: var(--primary-color);
+}
+
+.next-step-card p {
+    color: var(--text-secondary);
+    line-height: 1.5;
+    font-size: 0.875rem;
+}
+
+/* Screenshot Placeholder */
+.screenshot-placeholder {
+    background: var(--bg-tertiary);
+    border: 2px dashed var(--border-medium);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-2xl);
+    text-align: center;
+    margin: var(--spacing-lg) 0;
+    color: var(--text-tertiary);
+    font-style: italic;
+}
+
+/* Table of Contents */
+.toc {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+    position: sticky;
+    top: 100px;
+}
+
+.toc h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-md);
+    color: var(--text-primary);
+}
+
+.toc ul {
+    list-style: none;
+}
+
+.toc li {
+    margin-bottom: var(--spacing-sm);
+}
+
+.toc a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: var(--transition-fast);
+    display: block;
+    padding: var(--spacing-xs) 0;
+}
+
+.toc a:hover {
+    color: var(--primary-color);
+    padding-left: var(--spacing-sm);
+}
+
+/* Keyboard Shortcuts */
+.keyboard-shortcut {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    margin: 0 var(--spacing-xs);
+}
+
+.key {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    padding: 0.125rem 0.375rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    min-width: 1.5rem;
+    text-align: center;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Feature Comparison Table */
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--spacing-lg) 0;
+    background: var(--bg-primary);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.comparison-table th,
+.comparison-table td {
+    padding: var(--spacing-md);
+    text-align: left;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.comparison-table th {
+    background: var(--bg-secondary);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.comparison-table tr:hover {
+    background: var(--bg-secondary);
+}
+
+/* Responsive Design for Docs */
+@media (max-width: 768px) {
+    .docs-title {
+        font-size: 2rem;
+    }
+    
+    .docs-section .section-title {
+        font-size: 1.5rem;
+    }
+    
+    .docs-section .section-title::before {
+        display: none;
+    }
+    
+    .installation-steps-list li {
+        padding-left: var(--spacing-2xl);
+    }
+    
+    .installation-steps-list li::before {
+        width: 24px;
+        height: 24px;
+        font-size: 0.75rem;
+    }
+    
+    .permissions-grid,
+    .next-steps-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .toc {
+        position: static;
+    }
+}
+
+/* Print Styles for Documentation */
+@media print {
+    .docs-content {
+        padding-top: var(--spacing-xl);
+    }
+    
+    .docs-section {
+        break-inside: avoid;
+    }
+    
+    .next-step-card,
+    .permission-card {
+        break-inside: avoid;
+    }
+    
+    .alert {
+        break-inside: avoid;
+    }
+    
+    pre {
+        break-inside: avoid;
+    }
+}
+
+/* Dark Mode Adjustments for Documentation */
+@media (prefers-color-scheme: dark) {
+    .alert-info {
+        background: rgba(59, 130, 246, 0.2);
+    }
+    
+    .alert-success {
+        background: rgba(34, 197, 94, 0.2);
+    }
+    
+    .alert-warning {
+        background: rgba(245, 158, 11, 0.2);
+    }
+    
+    .alert-error {
+        background: rgba(239, 68, 68, 0.2);
+    }
+    
+    .screenshot-placeholder {
+        background: var(--bg-tertiary);
+        border-color: var(--border-dark);
+    }
+}

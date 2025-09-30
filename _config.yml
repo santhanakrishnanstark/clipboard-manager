@@ -1,0 +1,46 @@
+# Site settings
+title: Clipboard Manager
+description: A powerful Chrome extension for managing clipboard history with macOS-style design
+url: https://yourusername.github.io
+baseurl: /clipboard-manager
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# SEO
+author: Your Name
+twitter:
+  username: yourusername
+social:
+  name: Clipboard Manager
+  links:
+    - https://github.com/yourusername/clipboard-manager
+
+# Exclude from processing
+exclude:
+  - README.md
+  - GITHUB_PAGES_PLAN.md
+  - GITHUB_PAGES_IMPLEMENTATION.md
+  - GITHUB_FILES_CHECKLIST.md
+  - node_modules
+  - vendor
+  - Gemfile
+  - Gemfile.lock
+
+# Markdown settings
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# GitHub Pages specific settings
+github:
+  repository_url: https://github.com/yourusername/clipboard-manager
+  repository_name: clipboard-manager
+  owner_name: yourusername

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usage Guide - Clipboard Manager</title>
+    <meta name="description" content="Complete usage guide for the Clipboard Manager Chrome extension">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../icons/icon32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../icons/icon16.png">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/docs.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="../icons/icon32.png" alt="Clipboard Manager" class="logo-icon">
+                <span class="logo-text">Clipboard Manager</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="./installation.html" class="nav-link">Installation</a>
+                </li>
+                <li class="nav-item">
+                    <a href="./features.html" class="nav-link">Features</a>
+                </li>
+                <li class="nav-item">
+                    <a href="./troubleshooting.html" class="nav-link">Support</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://github.com/yourusername/clipboard-manager" class="nav-link" target="_blank">GitHub</a>
+                </li>
+            </ul>
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="docs-content">
+        <div class="container">
+            <div class="docs-header">
+                <h1 class="docs-title">Usage Guide</h1>
+                <p class="docs-description">
+                    Learn how to use all the features of Clipboard Manager effectively
+                </p>
+            </div>
+
+            <div class="docs-body">
+                <!-- Getting Started -->
+                <section class="docs-section">
+                    <h2 class="section-title">Getting Started</h2>
+                    <p>Once installed, Clipboard Manager works automatically in the background. Here's how to get started:</p>
+                    
+                    <ol class="installation-steps-list">
+                        <li>Copy any text from any website (Ctrl+C or Cmd+C)</li>
+                        <li>Click the Clipboard Manager icon in your Chrome toolbar</li>
+                        <li>See your copied text appear in the clipboard history</li>
+                        <li>Click any item to copy it back to your clipboard</li>
+                    </ol>
+
+                    <div class="alert alert-info">
+                        <strong>Tip:</strong> The extension automatically captures all copied text across all websites, so you don't need to do anything special to start building your clipboard history.
+                    </div>
+                </section>
+
+                <!-- Basic Operations -->
+                <section class="docs-section">
+                    <h2 class="section-title">Basic Operations</h2>
+                    
+                    <h3 class="subsection-title">Copying Items Back to Clipboard</h3>
+                    <ul class="troubleshooting-list">
+                        <li>Click any item in the history to copy it to your clipboard</li>
+                        <li>The item will be highlighted briefly to confirm the action</li>
+                        <li>You can then paste it anywhere using Ctrl+V (or Cmd+V)</li>
+                    </ul>
+
+                    <h3 class="subsection-title">Searching Your History</h3>
+                    <ul class="troubleshooting-list">
+                        <li>Use the search bar at the top of the popup</li>
+                        <li>Type keywords to filter your clipboard history</li>
+                        <li>Search is case-insensitive and matches partial text</li>
+                        <li>Clear the search to see all items again</li>
+                    </ul>
+
+                    <h3 class="subsection-title">Deleting Items</h3>
+                    <ul class="troubleshooting-list">
+                        <li>Hover over any item to see the delete button (×)</li>
+                        <li>Click the delete button to remove the item permanently</li>
+                        <li>Use "Clear All" to remove all clipboard history</li>
+                    </ul>
+                </section>
+
+                <!-- Keyboard Shortcuts -->
+                <section class="docs-section">
+                    <h2 class="section-title">Keyboard Shortcuts</h2>
+                    <p>Speed up your workflow with these keyboard shortcuts:</p>
+                    
+                    <div class="comparison-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Action</th>
+                                    <th>Windows/Linux</th>
+                                    <th>Mac</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Open Clipboard Manager</td>
+                                    <td><span class="keyboard-shortcut"><span class="key">Ctrl</span> + <span class="key">Shift</span> + <span class="key">C</span></span></td>
+                                    <td><span class="keyboard-shortcut"><span class="key">⌘</span> + <span class="key">Shift</span> + <span class="key">C</span></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Quick Paste Menu</td>
+                                    <td><span class="keyboard-shortcut"><span class="key">Ctrl</span> + <span class="key">Shift</span> + <span class="key">V</span></span></td>
+                                    <td><span class="keyboard-shortcut"><span class="key">⌘</span> + <span class="key">Shift</span> + <span class="key">V</span></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Paste Last Item</td>
+                                    <td><span class="keyboard-shortcut"><span class="key">Ctrl</span> + <span class="key">Shift</span> + <span class="key">Z</span></span></td>
+                                    <td><span class="keyboard-shortcut"><span class="key">⌘</span> + <span class="key">Shift</span> + <span class="key">Z</span></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <strong>Note:</strong> If keyboard shortcuts don't work, check Chrome's extension shortcuts in <code>chrome://extensions/shortcuts</code>
+                    </div>
+                </section>
+
+                <!-- Snippets Management -->
+                <section class="docs-section">
+                    <h2 class="section-title">Snippets Management</h2>
+                    <p>Save frequently used text as snippets for quick access:</p>
+                    
+                    <h3 class="subsection-title">Creating Snippets</h3>
+                    <ol class="installation-steps-list">
+                        <li>Click the "Snippets" tab in the popup</li>
+                        <li>Click "Add New Snippet"</li>
+                        <li>Enter a name and the text content</li>
+                        <li>Click "Save" to create the snippet</li>
+                    </ol>
+
+                    <h3 class="subsection-title">Using Snippets</h3>
+                    <ul class="troubleshooting-list">
+                        <li>Click any snippet to copy it to your clipboard</li>
+                        <li>Use the search bar to find specific snippets</li>
+                        <li>Edit snippets by clicking the edit icon</li>
+                        <li>Delete snippets using the delete button</li>
+                    </ul>
+
+                    <h3 class="subsection-title">Snippet Examples</h3>
+                    <div class="permissions-grid">
+                        <div class="permission-card">
+                            <h4>Email Signatures</h4>
+                            <p>Save your professional email signature for quick insertion</p>
+                        </div>
+                        <div class="permission-card">
+                            <h4>Common Responses</h4>
+                            <p>Store frequently used responses and replies</p>
+                        </div>
+                        <div class="permission-card">
+                            <h4>Code Templates</h4>
+                            <p>Keep code snippets and templates handy</p>
+                        </div>
+                        <div class="permission-card">
+                            <h4>Addresses & Info</h4>
+                            <p>Store addresses, phone numbers, and other info</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Settings & Configuration -->
+                <section class="docs-section">
+                    <h2 class="section-title">Settings & Configuration</h2>
+                    <p>Customize Clipboard Manager to fit your workflow:</p>
+                    
+                    <h3 class="subsection-title">Accessing Settings</h3>
+                    <ul class="troubleshooting-list">
+                        <li>Click the gear icon (⚙️) in the popup</li>
+                        <li>Or right-click the extension icon and select "Options"</li>
+                        <li>Or go to <code>chrome://extensions</code> and click "Details" → "Extension options"</li>
+                    </ul>
+
+                    <h3 class="subsection-title">General Settings</h3>
+                    <div class="requirements-list">
+                        <li><strong>Maximum History Size:</strong> Set how many items to keep (10-1000)</li>
+                        <li><strong>Enable Context Menu:</strong> Add clipboard options to right-click menus</li>
+                        <li><strong>Enable Quick Paste:</strong> Allow floating quick paste menu</li>
+                        <li><strong>Theme:</strong> Choose Auto (system), Light, or Dark mode</li>
+                        <li><strong>Auto-clear:</strong> Automatically clear old items after specified days</li>
+                    </div>
+
+                    <h3 class="subsection-title">Privacy Settings</h3>
+                    <p>Control where clipboard data is captured:</p>
+                    <div class="code-block">
+                        <p><strong>Excluded Sites:</strong> Add domains where clipboard capture should be disabled:</p>
+                        <pre><code>banking.com
+*.secure-site.org
+mail.google.com
+github.com/private-repo</code></pre>
+                    </div>
+                </section>
+
+                <!-- Import/Export -->
+                <section class="docs-section">
+                    <h2 class="section-title">Import & Export</h2>
+                    <p>Backup and restore your clipboard data:</p>
+                    
+                    <h3 class="subsection-title">Exporting Data</h3>
+                    <ol class="installation-steps-list">
+                        <li>Go to Settings → Data Management</li>
+                        <li>Click "Export Data"</li>
+                        <li>Choose format (JSON or CSV)</li>
+                        <li>Save the file to your computer</li>
+                    </ol>
+
+                    <h3 class="subsection-title">Importing Data</h3>
+                    <ol class="installation-steps-list">
+                        <li>Go to Settings → Data Management</li>
+                        <li>Click "Import Data"</li>
+                        <li>Select your backup file</li>
+                        <li>Choose merge or replace options</li>
+                    </ol>
+
+                    <div class="alert alert-info">
+                        <strong>Backup Tip:</strong> Export your data regularly to avoid losing important clipboard history and snippets.
+                    </div>
+                </section>
+
+                <!-- Context Menu -->
+                <section class="docs-section">
+                    <h2 class="section-title">Context Menu Integration</h2>
+                    <p>Access clipboard features from right-click menus:</p>
+                    
+                    <h3 class="subsection-title">Available Options</h3>
+                    <ul class="troubleshooting-list">
+                        <li><strong>Copy to Clipboard Manager:</strong> Manually add selected text</li>
+                        <li><strong>Paste from History:</strong> Quick access to recent items</li>
+                        <li><strong>Paste Snippet:</strong> Insert saved snippets</li>
+                        <li><strong>Open Clipboard Manager:</strong> Launch the full interface</li>
+                    </ul>
+
+                    <h3 class="subsection-title">Enabling Context Menu</h3>
+                    <p>Enable this feature in Settings → General → Enable Context Menu</p>
+                </section>
+
+                <!-- Quick Paste Menu -->
+                <section class="docs-section">
+                    <h2 class="section-title">Quick Paste Menu</h2>
+                    <p>Access clipboard items with a floating menu:</p>
+                    
+                    <h3 class="subsection-title">Using Quick Paste</h3>
+                    <ol class="installation-steps-list">
+                        <li>Press <span class="keyboard-shortcut"><span class="key">Ctrl</span> + <span class="key">Shift</span> + <span class="key">V</span></span> (or <span class="keyboard-shortcut"><span class="key">⌘</span> + <span class="key">Shift</span> + <span class="key">V</span></span> on Mac)</li>
+                        <li>A floating menu appears with recent clipboard items</li>
+                        <li>Click an item or use arrow keys to navigate</li>
+                        <li>Press Enter to paste the selected item</li>
+                    </ol>
+
+                    <div class="alert alert-success">
+                        <strong>Pro Tip:</strong> Quick Paste is perfect for rapid text insertion without opening the full popup.
+                    </div>
+                </section>
+
+                <!-- Best Practices -->
+                <section class="docs-section">
+                    <h2 class="section-title">Best Practices</h2>
+                    
+                    <h3 class="subsection-title">Organizing Your Workflow</h3>
+                    <ul class="troubleshooting-list">
+                        <li>Use descriptive names for snippets</li>
+                        <li>Organize snippets by category or purpose</li>
+                        <li>Regularly clean up old clipboard items</li>
+                        <li>Set appropriate history size for your needs</li>
+                        <li>Use excluded sites for sensitive pages</li>
+                    </ul>
+
+                    <h3 class="subsection-title">Privacy & Security</h3>
+                    <ul class="troubleshooting-list">
+                        <li>Add banking and financial sites to excluded sites</li>
+                        <li>Regularly clear sensitive data from history</li>
+                        <li>Use the auto-clear feature for automatic cleanup</li>
+                        <li>Be mindful of what you copy on shared computers</li>
+                    </ul>
+
+                    <h3 class="subsection-title">Performance Tips</h3>
+                    <ul class="troubleshooting-list">
+                        <li>Keep history size reasonable (50-200 items)</li>
+                        <li>Clear old items periodically</li>
+                        <li>Avoid copying very large text blocks repeatedly</li>
+                        <li>Use snippets for frequently accessed content</li>
+                    </ul>
+                </section>
+
+                <!-- Advanced Features -->
+                <section class="docs-section">
+                    <h2 class="section-title">Advanced Features</h2>
+                    
+                    <h3 class="subsection-title">Pinning Items</h3>
+                    <p>Keep important items at the top of your history:</p>
+                    <ul class="troubleshooting-list">
+                        <li>Click the star icon next to any clipboard item</li>
+                        <li>Pinned items appear at the top of the list</li>
+                        <li>Pinned items are protected from auto-cleanup</li>
+                        <li>Click the star again to unpin</li>
+                    </ul>
+
+                    <h3 class="subsection-title">Sorting Options</h3>
+                    <p>Organize your clipboard history:</p>
+                    <ul class="troubleshooting-list">
+                        <li><strong>Newest First:</strong> Most recent items at the top (default)</li>
+                        <li><strong>Oldest First:</strong> Oldest items at the top</li>
+                        <li><strong>Pinned First:</strong> Pinned items, then by date</li>
+                        <li><strong>Alphabetical:</strong> Sort items alphabetically</li>
+                    </ul>
+
+                    <h3 class="subsection-title">Bulk Operations</h3>
+                    <ul class="troubleshooting-list">
+                        <li>Select multiple items using checkboxes</li>
+                        <li>Delete multiple items at once</li>
+                        <li>Export selected items only</li>
+                        <li>Pin/unpin multiple items</li>
+                    </ul>
+                </section>
+
+                <!-- Next Steps -->
+                <section class="docs-section">
+                    <h2 class="section-title">Need More Help?</h2>
+                    <div class="next-steps-grid">
+                        <a href="./features.html" class="next-step-card">
+                            <h4>✨ Features Overview</h4>
+                            <p>Explore all available features in detail</p>
+                        </a>
+                        <a href="./troubleshooting.html" class="next-step-card">
+                            <h4>🔧 Troubleshooting</h4>
+                            <p>Get help with common issues and problems</p>
+                        </a>
+                        <a href="https://github.com/yourusername/clipboard-manager/discussions" class="next-step-card" target="_blank">
+                            <h4>💬 Community</h4>
+                            <p>Join discussions and get community support</p>
+                        </a>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="../icons/icon32.png" alt="Clipboard Manager" class="logo-icon">
+                        <span class="logo-text">Clipboard Manager</span>
+                    </div>
+                    <p class="footer-description">
+                        A powerful Chrome extension for managing clipboard history with privacy and security in mind.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Documentation</h4>
+                    <ul class="footer-links">
+                        <li><a href="./installation.html">Installation</a></li>
+                        <li><a href="./usage.html">Usage Guide</a></li>
+                        <li><a href="./features.html">Features</a></li>
+                        <li><a href="./troubleshooting.html">Troubleshooting</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/yourusername/clipboard-manager" target="_blank">GitHub</a></li>
+                        <li><a href="https://github.com/yourusername/clipboard-manager/issues" target="_blank">Report Bug</a></li>
+                        <li><a href="https://github.com/yourusername/clipboard-manager/discussions" target="_blank">Discussions</a></li>
+                        <li><a href="../PRIVACY_POLICY.md">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Clipboard Manager. Licensed under MIT License.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>

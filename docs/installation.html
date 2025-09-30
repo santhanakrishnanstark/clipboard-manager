@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Installation Guide - Clipboard Manager</title>
+    <meta name="description" content="Step-by-step installation guide for the Clipboard Manager Chrome extension">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../icons/icon32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../icons/icon16.png">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/docs.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="../icons/icon32.png" alt="Clipboard Manager" class="logo-icon">
+                <span class="logo-text">Clipboard Manager</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="./features.html" class="nav-link">Features</a>
+                </li>
+                <li class="nav-item">
+                    <a href="./usage.html" class="nav-link">Usage</a>
+                </li>
+                <li class="nav-item">
+                    <a href="./troubleshooting.html" class="nav-link">Support</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://github.com/yourusername/clipboard-manager" class="nav-link" target="_blank">GitHub</a>
+                </li>
+            </ul>
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="docs-content">
+        <div class="container">
+            <div class="docs-header">
+                <h1 class="docs-title">Installation Guide</h1>
+                <p class="docs-description">
+                    Follow these simple steps to install the Clipboard Manager Chrome extension
+                </p>
+            </div>
+
+            <div class="docs-body">
+                <!-- Method 1: Chrome Web Store -->
+                <section class="docs-section">
+                    <h2 class="section-title">Method 1: Chrome Web Store (Recommended)</h2>
+                    <div class="alert alert-info">
+                        <strong>Coming Soon:</strong> The extension will be available on the Chrome Web Store once it's published.
+                    </div>
+                    <ol class="installation-steps-list">
+                        <li>Visit the <a href="#" target="_blank">Chrome Web Store page</a> (link coming soon)</li>
+                        <li>Click the "Add to Chrome" button</li>
+                        <li>Confirm the installation by clicking "Add extension"</li>
+                        <li>The extension icon will appear in your Chrome toolbar</li>
+                    </ol>
+                </section>
+
+                <!-- Method 2: Manual Installation -->
+                <section class="docs-section">
+                    <h2 class="section-title">Method 2: Manual Installation (Developer Mode)</h2>
+                    <p>For early access or development purposes, you can install the extension manually:</p>
+                    
+                    <h3 class="subsection-title">Step 1: Download the Extension</h3>
+                    <div class="code-block">
+                        <p>Download the latest release from GitHub:</p>
+                        <a href="https://github.com/yourusername/clipboard-manager/archive/main.zip" class="btn btn-primary">
+                            Download ZIP File
+                        </a>
+                    </div>
+                    <p>Or clone the repository:</p>
+                    <pre><code>git clone https://github.com/yourusername/clipboard-manager.git</code></pre>
+
+                    <h3 class="subsection-title">Step 2: Extract Files</h3>
+                    <ol class="installation-steps-list">
+                        <li>Extract the downloaded ZIP file to a folder on your computer</li>
+                        <li>Remember the location of this folder - you'll need it in the next step</li>
+                    </ol>
+
+                    <h3 class="subsection-title">Step 3: Enable Developer Mode</h3>
+                    <ol class="installation-steps-list">
+                        <li>Open Google Chrome</li>
+                        <li>Navigate to <code>chrome://extensions/</code></li>
+                        <li>Toggle on "Developer mode" in the top-right corner</li>
+                    </ol>
+                    <div class="screenshot-placeholder">
+                        <p><em>Screenshot: Chrome Extensions page with Developer mode toggle</em></p>
+                    </div>
+
+                    <h3 class="subsection-title">Step 4: Load the Extension</h3>
+                    <ol class="installation-steps-list">
+                        <li>Click "Load unpacked" button</li>
+                        <li>Navigate to and select the extracted extension folder</li>
+                        <li>Click "Select Folder" (or "Open" on Mac)</li>
+                        <li>The extension should now appear in your extensions list</li>
+                    </ol>
+
+                    <h3 class="subsection-title">Step 5: Pin the Extension</h3>
+                    <ol class="installation-steps-list">
+                        <li>Click the puzzle piece icon in Chrome's toolbar</li>
+                        <li>Find "Clipboard Manager" in the list</li>
+                        <li>Click the pin icon to pin it to your toolbar</li>
+                    </ol>
+                </section>
+
+                <!-- Verification -->
+                <section class="docs-section">
+                    <h2 class="section-title">Verify Installation</h2>
+                    <p>To confirm the extension is working correctly:</p>
+                    <ol class="installation-steps-list">
+                        <li>Look for the Clipboard Manager icon in your Chrome toolbar</li>
+                        <li>Copy some text from any webpage</li>
+                        <li>Click the extension icon to open the popup</li>
+                        <li>You should see your copied text in the clipboard history</li>
+                    </ol>
+                    
+                    <div class="alert alert-success">
+                        <strong>Success!</strong> If you can see your copied text, the extension is working correctly.
+                    </div>
+                </section>
+
+                <!-- System Requirements -->
+                <section class="docs-section">
+                    <h2 class="section-title">System Requirements</h2>
+                    <ul class="requirements-list">
+                        <li><strong>Browser:</strong> Google Chrome 88+ or Chromium-based browsers</li>
+                        <li><strong>Manifest:</strong> Supports Manifest V3</li>
+                        <li><strong>Permissions:</strong> Storage, Active Tab, Context Menus, Clipboard</li>
+                        <li><strong>Storage:</strong> Minimal local storage usage (typically &lt; 1MB)</li>
+                    </ul>
+                </section>
+
+                <!-- Permissions -->
+                <section class="docs-section">
+                    <h2 class="section-title">Required Permissions</h2>
+                    <p>The extension requires the following permissions to function:</p>
+                    <div class="permissions-grid">
+                        <div class="permission-card">
+                            <h4>Storage</h4>
+                            <p>To save clipboard history and settings locally on your device</p>
+                        </div>
+                        <div class="permission-card">
+                            <h4>Active Tab</h4>
+                            <p>To capture copied text from the current webpage</p>
+                        </div>
+                        <div class="permission-card">
+                            <h4>Context Menus</h4>
+                            <p>To add clipboard options to right-click menus</p>
+                        </div>
+                        <div class="permission-card">
+                            <h4>Clipboard Read/Write</h4>
+                            <p>To read copied text and write text back to clipboard</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Troubleshooting -->
+                <section class="docs-section">
+                    <h2 class="section-title">Installation Troubleshooting</h2>
+                    
+                    <h3 class="subsection-title">Extension Not Loading</h3>
+                    <ul class="troubleshooting-list">
+                        <li>Ensure you've enabled Developer mode</li>
+                        <li>Check that you selected the correct folder (should contain manifest.json)</li>
+                        <li>Try refreshing the extensions page and loading again</li>
+                        <li>Check Chrome's console for any error messages</li>
+                    </ul>
+
+                    <h3 class="subsection-title">Extension Icon Not Visible</h3>
+                    <ul class="troubleshooting-list">
+                        <li>Click the puzzle piece icon in Chrome's toolbar</li>
+                        <li>Look for "Clipboard Manager" and click the pin icon</li>
+                        <li>The icon should now appear in your toolbar</li>
+                    </ul>
+
+                    <h3 class="subsection-title">Not Capturing Clipboard Data</h3>
+                    <ul class="troubleshooting-list">
+                        <li>Refresh the webpage and try copying again</li>
+                        <li>Check if the site is in your excluded sites list</li>
+                        <li>Ensure clipboard permissions are granted</li>
+                        <li>Try disabling and re-enabling the extension</li>
+                    </ul>
+                </section>
+
+                <!-- Next Steps -->
+                <section class="docs-section">
+                    <h2 class="section-title">Next Steps</h2>
+                    <p>Now that you have the extension installed:</p>
+                    <div class="next-steps-grid">
+                        <a href="./usage.html" class="next-step-card">
+                            <h4>📖 Usage Guide</h4>
+                            <p>Learn how to use all the features</p>
+                        </a>
+                        <a href="./features.html" class="next-step-card">
+                            <h4>✨ Features Overview</h4>
+                            <p>Explore all available features</p>
+                        </a>
+                        <a href="./troubleshooting.html" class="next-step-card">
+                            <h4>🔧 Troubleshooting</h4>
+                            <p>Get help with common issues</p>
+                        </a>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="../icons/icon32.png" alt="Clipboard Manager" class="logo-icon">
+                        <span class="logo-text">Clipboard Manager</span>
+                    </div>
+                    <p class="footer-description">
+                        A powerful Chrome extension for managing clipboard history with privacy and security in mind.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Documentation</h4>
+                    <ul class="footer-links">
+                        <li><a href="./installation.html">Installation</a></li>
+                        <li><a href="./usage.html">Usage Guide</a></li>
+                        <li><a href="./features.html">Features</a></li>
+                        <li><a href="./troubleshooting.html">Troubleshooting</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/yourusername/clipboard-manager" target="_blank">GitHub</a></li>
+                        <li><a href="https://github.com/yourusername/clipboard-manager/issues" target="_blank">Report Bug</a></li>
+                        <li><a href="https://github.com/yourusername/clipboard-manager/discussions" target="_blank">Discussions</a></li>
+                        <li><a href="../PRIVACY_POLICY.md">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Clipboard Manager. Licensed under MIT License.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>
