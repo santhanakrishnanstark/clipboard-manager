@@ -8,6 +8,9 @@ class ClipboardCapture {
   constructor() {
     this.excludedSites = [];
     this.quickPasteMenu = null;
+    this.selectionToolbar = null;
+    this.selectionTimeout = null;
+    this.lastSelection = null;
     this.init();
   }
 
@@ -26,6 +29,7 @@ class ClipboardCapture {
     this.setupClipboardCapture();
     this.setupMessageListener();
     this.setupQuickPasteMenu();
+    this.setupSelectionToolbar();
     
     console.log('Clipboard Manager: Content script initialized successfully');
   }
@@ -39,6 +43,7 @@ class ClipboardCapture {
       }
 
       const result = await chrome.storage.local.get(['settings']);
+      this.settings = result.settings || {};
       if (result.settings && result.settings.excludedSites) {
         this.excludedSites = result.settings.excludedSites;
       }
@@ -281,6 +286,487 @@ class ClipboardCapture {
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && this.quickPasteMenu.style.display !== 'none') {
         this.hideQuickPasteMenu();
+      }
+    });
+  }
+
+  setupSelectionToolbar() {
+    // Check if selection toolbar is enabled in settings
+    const settings = this.settings || {};
+    if (settings.enableSelectionToolbar === false) {
+      return; // Don't create toolbar if disabled
+    }
+    this.createSelectionToolbar();
+  }
+
+  createSelectionToolbar() {
+    // Prevent multiple toolbars
+    if (this.selectionToolbar) {
+      return;
+    }
+
+    // Create selection toolbar container
+    this.selectionToolbar = document.createElement('div');
+    this.selectionToolbar.id = 'clipboard-selection-toolbar';
+    this.selectionToolbar.style.cssText = `
+      position: fixed;
+      top: -1000px;
+      left: -1000px;
+      z-index: 2147483647;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 6px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+      padding: 4px;
+      display: none;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 12px;
+      transition: all 0.15s ease;
+      opacity: 0;
+      transform: translateY(2px);
+      pointer-events: none;
+    `;
+
+    // Add dark mode support
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      this.selectionToolbar.style.background = 'rgba(30, 30, 30, 0.95)';
+      this.selectionToolbar.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+      this.selectionToolbar.style.color = '#ffffff';
+    }
+
+    // Create toolbar content
+    this.createToolbarContent();
+    
+    document.body.appendChild(this.selectionToolbar);
+
+    // Setup selection detection
+    this.setupSelectionDetection();
+  }
+
+  createToolbarContent() {
+    this.selectionToolbar.innerHTML = `
+      <div class="toolbar-content" style="display: flex; align-items: center; gap: 2px;">
+        <button class="copy-btn" style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 28px;
+          height: 28px;
+          background: transparent;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          color: inherit;
+          transition: background-color 0.15s ease;
+        " title="Copy to clipboard">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+        </button>
+        <div class="toolbar-divider" style="
+          width: 1px;
+          height: 16px;
+          background: rgba(0, 0, 0, 0.1);
+          margin: 0 1px;
+        "></div>
+        <button class="menu-btn" style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 28px;
+          height: 28px;
+          background: transparent;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          color: inherit;
+          transition: background-color 0.15s ease;
+        " title="More options">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="1"></circle>
+            <circle cx="12" cy="5" r="1"></circle>
+            <circle cx="12" cy="19" r="1"></circle>
+          </svg>
+        </button>
+      </div>
+      <div class="toolbar-menu" style="
+        position: absolute;
+        top: 100%;
+        right: 0;
+        margin-top: 4px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        padding: 4px;
+        min-width: 160px;
+        display: none;
+        opacity: 0;
+        transform: translateY(-4px);
+        transition: all 0.15s ease;
+      ">
+        <button class="menu-item snippet-btn" style="
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          width: 100%;
+          padding: 6px 10px;
+          background: transparent;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 12px;
+          color: inherit;
+          text-align: left;
+          transition: background-color 0.15s ease;
+        ">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+          </svg>
+          Save as Snippet
+        </button>
+        <button class="menu-item pin-btn" style="
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          width: 100%;
+          padding: 6px 10px;
+          background: transparent;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 12px;
+          color: inherit;
+          text-align: left;
+          transition: background-color 0.15s ease;
+        ">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+          </svg>
+          Pin to History
+        </button>
+      </div>
+    `;
+
+    // Add dark mode styles for menu
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      const menu = this.selectionToolbar.querySelector('.toolbar-menu');
+      menu.style.background = 'rgba(30, 30, 30, 0.95)';
+      menu.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+      
+      const divider = this.selectionToolbar.querySelector('.toolbar-divider');
+      divider.style.background = 'rgba(255, 255, 255, 0.1)';
+    }
+
+    // Setup event listeners
+    this.setupToolbarEventListeners();
+  }
+
+  setupToolbarEventListeners() {
+    const copyBtn = this.selectionToolbar.querySelector('.copy-btn');
+    const menuBtn = this.selectionToolbar.querySelector('.menu-btn');
+    const snippetBtn = this.selectionToolbar.querySelector('.snippet-btn');
+    const pinBtn = this.selectionToolbar.querySelector('.pin-btn');
+    const menu = this.selectionToolbar.querySelector('.toolbar-menu');
+
+    // Hover effects
+    [copyBtn, menuBtn, ...this.selectionToolbar.querySelectorAll('.menu-item')].forEach(btn => {
+      btn.addEventListener('mouseenter', () => {
+        btn.style.backgroundColor = 'rgba(0, 122, 255, 0.1)';
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.backgroundColor = 'transparent';
+      });
+    });
+
+    // Copy button
+    copyBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.copySelectedText();
+    });
+
+    // Menu button
+    menuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.toggleToolbarMenu();
+    });
+
+    // Snippet button
+    snippetBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.saveSelectedTextAsSnippet();
+    });
+
+    // Pin button
+    pinBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.pinSelectedText();
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', () => {
+      this.hideToolbarMenu();
+    });
+  }
+
+  setupSelectionDetection() {
+    let selectionTimeout;
+
+    // Handle text selection
+    const handleSelection = () => {
+      clearTimeout(selectionTimeout);
+      selectionTimeout = setTimeout(() => {
+        this.handleTextSelection();
+      }, 150); // Debounce selection events
+    };
+
+    // Listen for selection events
+    document.addEventListener('mouseup', handleSelection);
+    document.addEventListener('keyup', (e) => {
+      // Only handle selection-related keys
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' ||
+          e.key === 'ArrowUp' || e.key === 'ArrowDown' ||
+          e.key === 'Shift' || e.key === 'Control' || e.key === 'Meta') {
+        handleSelection();
+      }
+    });
+
+    // Hide toolbar on scroll
+    document.addEventListener('scroll', () => {
+      this.hideSelectionToolbar();
+    }, { passive: true });
+
+    // Hide toolbar on window resize
+    window.addEventListener('resize', () => {
+      this.hideSelectionToolbar();
+    });
+  }
+
+  handleTextSelection() {
+    const selection = window.getSelection();
+    const selectedText = selection.toString().trim();
+
+    if (selectedText && selectedText.length > 0) {
+      // Check if selection has changed
+      if (this.lastSelection !== selectedText) {
+        this.lastSelection = selectedText;
+        this.showSelectionToolbar(selection);
+      }
+    } else {
+      this.hideSelectionToolbar();
+      this.lastSelection = null;
+    }
+  }
+
+  showSelectionToolbar(selection) {
+    if (!selection.rangeCount) return;
+
+    const range = selection.getRangeAt(0);
+    const rect = range.getBoundingClientRect();
+    
+    // Calculate toolbar position
+    const toolbarRect = this.selectionToolbar.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    
+    let x = rect.left + (rect.width / 2) - (toolbarRect.width / 2);
+    let y = rect.top - toolbarRect.height - 8;
+    
+    // Adjust for viewport boundaries
+    if (x < 8) x = 8;
+    if (x + toolbarRect.width > viewportWidth - 8) {
+      x = viewportWidth - toolbarRect.width - 8;
+    }
+    
+    // If toolbar would be above viewport, show below selection
+    if (y < 8) {
+      y = rect.bottom + 8;
+    }
+    
+    // Position toolbar
+    this.selectionToolbar.style.left = x + 'px';
+    this.selectionToolbar.style.top = y + 'px';
+    this.selectionToolbar.style.display = 'block';
+    this.selectionToolbar.style.pointerEvents = 'auto';
+    
+    // Animate in
+    requestAnimationFrame(() => {
+      this.selectionToolbar.style.opacity = '1';
+      this.selectionToolbar.style.transform = 'translateY(0)';
+    });
+  }
+
+  hideSelectionToolbar() {
+    if (this.selectionToolbar.style.display === 'none') return;
+    
+    this.selectionToolbar.style.opacity = '0';
+    this.selectionToolbar.style.transform = 'translateY(4px)';
+    this.selectionToolbar.style.pointerEvents = 'none';
+    
+    setTimeout(() => {
+      this.selectionToolbar.style.display = 'none';
+      this.hideToolbarMenu();
+    }, 200);
+  }
+
+  toggleToolbarMenu() {
+    const menu = this.selectionToolbar.querySelector('.toolbar-menu');
+    const isVisible = menu.style.display === 'block';
+    
+    if (isVisible) {
+      this.hideToolbarMenu();
+    } else {
+      this.showToolbarMenu();
+    }
+  }
+
+  showToolbarMenu() {
+    const menu = this.selectionToolbar.querySelector('.toolbar-menu');
+    menu.style.display = 'block';
+    
+    requestAnimationFrame(() => {
+      menu.style.opacity = '1';
+      menu.style.transform = 'translateY(0)';
+    });
+  }
+
+  hideToolbarMenu() {
+    const menu = this.selectionToolbar.querySelector('.toolbar-menu');
+    if (menu.style.display === 'none') return;
+    
+    menu.style.opacity = '0';
+    menu.style.transform = 'translateY(-4px)';
+    
+    setTimeout(() => {
+      menu.style.display = 'none';
+    }, 150);
+  }
+
+  async copySelectedText() {
+    const selectedText = window.getSelection().toString().trim();
+    if (!selectedText) return;
+
+    try {
+      await navigator.clipboard.writeText(selectedText);
+      
+      // Send to background script for history
+      this.sendToBackground(selectedText);
+      
+      // Show feedback
+      this.showToolbarFeedback('Copied!');
+      
+      // Hide toolbar after short delay
+      setTimeout(() => {
+        this.hideSelectionToolbar();
+      }, 1000);
+      
+    } catch (error) {
+      console.error('Error copying selected text:', error);
+      this.showToolbarFeedback('Copy failed', true);
+    }
+  }
+
+  async saveSelectedTextAsSnippet() {
+    const selectedText = window.getSelection().toString().trim();
+    if (!selectedText) return;
+
+    // Create a simple prompt for snippet title
+    const title = prompt('Enter a title for this snippet:',
+      selectedText.length > 30 ? selectedText.substring(0, 30) + '...' : selectedText);
+    
+    if (title && title.trim()) {
+      try {
+        // Send to background script
+        const response = await this.sendMessageToBackground({
+          action: 'addSnippet',
+          text: selectedText,
+          title: title.trim()
+        });
+        
+        if (response && response.success) {
+          this.showToolbarFeedback('Snippet saved!');
+        } else {
+          throw new Error('Failed to save snippet');
+        }
+      } catch (error) {
+        console.error('Error saving snippet:', error);
+        this.showToolbarFeedback('Save failed', true);
+      }
+    }
+    
+    this.hideToolbarMenu();
+    setTimeout(() => {
+      this.hideSelectionToolbar();
+    }, 1000);
+  }
+
+  async pinSelectedText() {
+    const selectedText = window.getSelection().toString().trim();
+    if (!selectedText) return;
+
+    try {
+      // First add to history, then pin it
+      this.sendToBackground(selectedText);
+      
+      // Note: We'll need to modify the background script to support pinning new items
+      this.showToolbarFeedback('Added to history!');
+      
+    } catch (error) {
+      console.error('Error pinning selected text:', error);
+      this.showToolbarFeedback('Pin failed', true);
+    }
+    
+    this.hideToolbarMenu();
+    setTimeout(() => {
+      this.hideSelectionToolbar();
+    }, 1000);
+  }
+
+  showToolbarFeedback(message, isError = false) {
+    const copyBtn = this.selectionToolbar.querySelector('.copy-btn');
+    const originalContent = copyBtn.innerHTML;
+    const originalTitle = copyBtn.title;
+    
+    copyBtn.innerHTML = `
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        ${isError ?
+          '<line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>' :
+          '<polyline points="20,6 9,17 4,12"></polyline>'
+        }
+      </svg>
+    `;
+    
+    copyBtn.title = message;
+    copyBtn.style.color = isError ? '#FF3B30' : '#34C759';
+    
+    setTimeout(() => {
+      copyBtn.innerHTML = originalContent;
+      copyBtn.title = originalTitle;
+      copyBtn.style.color = 'inherit';
+    }, 1500);
+  }
+
+  async sendMessageToBackground(message) {
+    return new Promise((resolve) => {
+      try {
+        if (!chrome.runtime || !chrome.runtime.id) {
+          resolve({ success: false, error: 'Extension context invalidated' });
+          return;
+        }
+
+        chrome.runtime.sendMessage(message, (response) => {
+          if (chrome.runtime.lastError) {
+            resolve({ success: false, error: chrome.runtime.lastError.message });
+          } else {
+            resolve(response);
+          }
+        });
+      } catch (error) {
+        resolve({ success: false, error: error.message });
       }
     });
   }

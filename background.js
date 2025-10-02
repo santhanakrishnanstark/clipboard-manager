@@ -17,6 +17,7 @@ class ClipboardManager {
           excludedSites: [],
           enableQuickPaste: true,
           enableContextMenu: true,
+          enableSelectionToolbar: true,
           theme: 'auto', // auto, light, dark
           sortOrder: 'newest' // newest, oldest, pinned
         }
@@ -43,35 +44,37 @@ class ClipboardManager {
       await chrome.contextMenus.removeAll();
 
       // Create main context menu
-      chrome.contextMenus.create({
+      await chrome.contextMenus.create({
         id: 'clipboard-manager',
         title: 'Clipboard Manager',
         contexts: ['all']
       });
 
-      chrome.contextMenus.create({
+      await chrome.contextMenus.create({
         id: 'paste-from-history',
         parentId: 'clipboard-manager',
         title: 'Paste from History',
         contexts: ['editable']
       });
 
-      chrome.contextMenus.create({
+      await chrome.contextMenus.create({
         id: 'save-as-snippet',
         parentId: 'clipboard-manager',
         title: 'Save Selection as Snippet',
         contexts: ['selection']
       });
 
-      chrome.contextMenus.create({
+      await chrome.contextMenus.create({
         id: 'clear-history',
         parentId: 'clipboard-manager',
         title: 'Clear History',
         contexts: ['all']
       });
 
-      // Add recent items to context menu
-      await this.updateContextMenuHistory();
+      // Add recent items to context menu with a small delay
+      setTimeout(() => {
+        this.updateContextMenuHistory();
+      }, 100);
     } catch (error) {
       console.error('Clipboard Manager Background: Error setting up context menu:', error);
     }
@@ -82,31 +85,39 @@ class ClipboardManager {
       const { clipboardHistory } = await chrome.storage.local.get(['clipboardHistory']);
       const history = clipboardHistory || [];
 
-      // Remove existing history items (but not the main menu structure)
-      // First, remove any existing paste-item entries
+      // Remove existing history items with proper error handling
+      const removePromises = [];
       for (let i = 0; i < 10; i++) {
-        try {
-          await chrome.contextMenus.remove(`paste-item-${i}`);
-        } catch (e) {
-          // Item doesn't exist, ignore
-        }
+        removePromises.push(
+          chrome.contextMenus.remove(`paste-item-${i}`).catch(() => {
+            // Item doesn't exist, ignore
+          })
+        );
       }
+      
+      // Wait for all removals to complete
+      await Promise.all(removePromises);
 
-      // Add recent items (max 5)
+      // Add recent items (max 5) with sequential creation to avoid race conditions
       const recentItems = history.slice(0, 5);
-      recentItems.forEach((item, index) => {
+      for (let index = 0; index < recentItems.length; index++) {
+        const item = recentItems[index];
         const title = item.text.length > 50 ? item.text.substring(0, 50) + '...' : item.text;
+        
         try {
-          chrome.contextMenus.create({
+          await chrome.contextMenus.create({
             id: `paste-item-${index}`,
             parentId: 'paste-from-history',
             title: title,
             contexts: ['editable']
           });
         } catch (error) {
-          console.error('Clipboard Manager Background: Error creating context menu item:', error);
+          // Check if it's a duplicate ID error and skip silently
+          if (!error.message || !error.message.includes('duplicate id')) {
+            console.error('Clipboard Manager Background: Error creating context menu item:', error);
+          }
         }
-      });
+      }
     } catch (error) {
       console.error('Clipboard Manager Background: Error updating context menu history:', error);
     }

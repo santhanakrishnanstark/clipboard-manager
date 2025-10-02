@@ -9,11 +9,12 @@
     /* Additional styles for options page */
     body {
       width: 100%;
-      height: 100vh;
+      min-height: 100vh;
       max-width: 800px;
       margin: 0 auto;
       padding: 40px 20px;
       background: var(--background-secondary);
+      overflow-y: auto;
     }
 
     .options-container {
@@ -344,6 +345,16 @@
           </div>
           <div class="setting-control">
             <div class="toggle-switch" id="enableQuickPaste"></div>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">Enable Selection Toolbar</div>
+            <div class="setting-description">Show copy and snippet options when text is selected</div>
+          </div>
+          <div class="setting-control">
+            <div class="toggle-switch" id="enableSelectionToolbar"></div>
           </div>
         </div>
 

@@ -7,6 +7,7 @@ class OptionsManager {
       excludedSites: [],
       enableQuickPaste: true,
       enableContextMenu: true,
+      enableSelectionToolbar: true,
       theme: 'auto',
       sortOrder: 'newest'
     };
@@ -34,6 +35,7 @@ class OptionsManager {
     // Toggle switches
     this.setupToggleSwitch('enableContextMenu');
     this.setupToggleSwitch('enableQuickPaste');
+    this.setupToggleSwitch('enableSelectionToolbar');
 
     // Number input
     document.getElementById('maxHistorySize').addEventListener('change', (e) => {
@@ -120,7 +122,7 @@ class OptionsManager {
     });
 
     // Auto-save for toggles
-    ['enableContextMenu', 'enableQuickPaste'].forEach(toggleId => {
+    ['enableContextMenu', 'enableQuickPaste', 'enableSelectionToolbar'].forEach(toggleId => {
       document.getElementById(toggleId).addEventListener('click', () => {
         setTimeout(() => {
           this.saveSettings(true); // Silent save
@@ -133,6 +135,7 @@ class OptionsManager {
     // Set toggle switches
     document.getElementById('enableContextMenu').classList.toggle('active', this.settings.enableContextMenu);
     document.getElementById('enableQuickPaste').classList.toggle('active', this.settings.enableQuickPaste);
+    document.getElementById('enableSelectionToolbar').classList.toggle('active', this.settings.enableSelectionToolbar);
 
     // Set number input
     document.getElementById('maxHistorySize').value = this.settings.maxHistorySize;
